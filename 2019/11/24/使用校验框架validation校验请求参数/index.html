@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用校验框架validation校验请求参数 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我的第一篇hexo blog  coincren@Valid和@Validated区别Spring Boot在内部通过集成hibernate-validation已经实现了JSR-349验证规范接口，在Spring Boot项目中只要直接使用就行了。一般用在Controller中用于验证前端传来的参数。验证分两种：对封装的Bean进行验证  或者  对方法简单参数的验证。 一般在Controlle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用校验框架validation校验请求参数">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;24&#x2F;%E4%BD%BF%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%A1%86%E6%9E%B6validation%E6%A0%A1%E9%AA%8C%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0&#x2F;index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我的第一篇hexo blog  coincren@Valid和@Validated区别Spring Boot在内部通过集成hibernate-validation已经实现了JSR-349验证规范接口，在Spring Boot项目中只要直接使用就行了。一般用在Controller中用于验证前端传来的参数。验证分两种：对封装的Bean进行验证  或者  对方法简单参数的验证。 一般在Controlle">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-24T04:46:14.699Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用校验框架validation校验请求参数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/24/%E4%BD%BF%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%A1%86%E6%9E%B6validation%E6%A0%A1%E9%AA%8C%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/" class="article-date">
+  <time datetime="2019-11-24T04:29:24.000Z" itemprop="datePublished">2019-11-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用校验框架validation校验请求参数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="我的第一篇hexo-blog-coincren"><a href="#我的第一篇hexo-blog-coincren" class="headerlink" title="我的第一篇hexo blog  coincren"></a>我的第一篇hexo blog  coincren</h4><h2 id="Valid和-Validated区别"><a href="#Valid和-Validated区别" class="headerlink" title="@Valid和@Validated区别"></a>@Valid和@Validated区别</h2><p>Spring Boot在内部通过集成hibernate-validation已经实现了JSR-349验证规范接口，在Spring Boot项目中只要直接使用就行了。<br>一般用在Controller中用于验证前端传来的参数。验证分两种：对封装的Bean进行验证  或者  对方法简单参数的验证。</p>
+<p>一般在Controller中请求参数前添加 @Validated/@Valid 开启注解(会以系统异常抛出,在请求体后添加Errors对象收集)  异常信息在在resource 目录下新建提示信息配置文件“ValidationMessages.properties“<br>或在service层接口类上添加@Validated 配合 service方法请求参数添加@valid 进行校验(会被已有异常体系拦截)  </p>
+<ul>
+<li>@Validated：(提供分组功能)可以用在类型、方法和方法参数上。但是不能用在成员属性（字段）上</li>
+<li>@Valid：可以用在方法、构造函数、方法参数和成员属性（字段）上<br>两者是否能用于成员属性（字段）上直接影响能否提供嵌套验证的功能。</li>
+</ul>
+<p>如果请求体中仍嵌套对象的话 对象应使用@valid 注释 否则无法校验</p>
+<p><strong>主要使用</strong></p>
+<ul>
+<li>@NotNull           任何对象的value不能为null</li>
+<li>@NotEmpty       集合对象的元素不为0，即集合不为空，也可以用于字符串不为null</li>
+<li>@NotBlank        只能用于字符串不为null，并且字符串trim()以后length要大于0</li>
+</ul>
+<p><strong>Bean Validation 中内置的 constraint</strong> </p>
+<ul>
+<li>@Valid    被注释的元素是一个对象，需要检查此对象的所有字段值</li>
+<li>@Null    被注释的元素必须为 null</li>
+<li>@NotNull    被注释的元素必须不为 null</li>
+<li>@AssertTrue    被注释的元素必须为 true</li>
+<li>@AssertFalse    被注释的元素必须为 false</li>
+<li>@Min(value)    被注释的元素必须是一个数字，其值必须大于等于指定的最小值</li>
+<li>@Max(value)    被注释的元素必须是一个数字，其值必须小于等于指定的最大值</li>
+<li>@DecimalMin(value)    被注释的元素必须是一个数字，其值必须大于等于指定的最小值</li>
+<li>@DecimalMax(value)    被注释的元素必须是一个数字，其值必须小于等于指定的最大值</li>
+<li>@Size(max, min)    被注释的元素的大小必须在指定的范围内</li>
+<li>@Digits (integer, fraction)    被注释的元素必须是一个数字，其值必须在可接受的范围内</li>
+<li>@Past    被注释的元素必须是一个过去的日期</li>
+<li>@Future    被注释的元素必须是一个将来的日期</li>
+<li>@Pattern(value)    被注释的元素必须符合指定的正则表达式</li>
+</ul>
+<p><strong>Hibernate Validator 附加的 constraint</strong></p>
+<ul>
+<li>@Email    被注释的元素必须是电子邮箱地址</li>
+<li>@Length(min=, max=)    被注释的字符串的大小必须在指定的范围内</li>
+<li>@NotEmpty    被注释的字符串的必须非空</li>
+<li>@Range(min=, max=)    被注释的元素必须在合适的范围内</li>
+<li>@NotBlank    被注释的字符串的必须非空</li>
+<li>@URL(protocol=,host=,    port=, regexp=, flags=)    被注释的字符串必须是一个有效的url</li>
+<li>@CreditCardNumber 被注释的字符串必须通过Luhn校验算法， 银行卡，信用卡等号码一般都用Luhn计算合法性</li>
+<li>@ScriptAssert(lang=, script=, alias=)    要有Java Scripting API 即JSR 223 (“Scripting for the JavaTM Platform”)的实现</li>
+<li>@SafeHtml(whitelistType=, additionalTags=)    classpath中要有jsoup包</li>
+</ul>
+<h2 id="分组校验"><a href="#分组校验" class="headerlink" title="分组校验"></a>分组校验</h2><p>@Validation可以使用分组校验<br>每个校验注解都有group属性用于指定校验所属的组，其值是Class数组，在Controller中使用@Validated注解开启对参数的校验时若指定要进行校验的组，那么只有组相同的属性才会被进行校验(默认全匹配)<br>Class&lt;?&gt;[] groups() default { };<br>一般定义标识接口作为组资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface GroupA &#123;</span><br><span class="line">&#125;</span><br><span class="line">public interface GroupB &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用校验注解标注在属性上并进行分组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line"></span><br><span class="line">    @NotNull(message=&quot;id不能为空!&quot;,groups = &#123;GroupA.class&#125;)</span><br><span class="line">    private Integer id;</span><br><span class="line">    </span><br><span class="line">    @NotBlank(message=&quot;用户名不能为空!&quot;,groups = &#123;GroupB.class&#125;)</span><br><span class="line">    @Size(min=4,max=12,message=&quot;用户名的长度在4~12之间!&quot;)</span><br><span class="line">    private String username;</span><br><span class="line"></span><br><span class="line">    @NotBlank(message=&quot;密码不能为空!&quot;)</span><br><span class="line">    private String password;</span><br><span class="line">    </span><br><span class="line">    @Email(message=&quot;非法邮箱!&quot;)</span><br><span class="line">    private String email;</span><br><span class="line">getter....&amp;setter.....</span><br></pre></td></tr></table></figure>
+<p>Controller中使用@Validated注解开启对参数的校验并指定校验的组，那么只有组相同的属性才会被进行校验(默认全匹配)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class BaseController &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;/test&quot;)</span><br><span class="line">    public User test(@Validated(value= &#123;GroupB.class&#125;) User user, BindingResult result) &#123;</span><br><span class="line">        if (result.hasErrors()) &#123;</span><br><span class="line">            List&lt;ObjectError&gt; errors = result.getAllErrors();</span><br><span class="line">            for (ObjectError error : errors) &#123;</span><br><span class="line">                System.out.println(error.getDefaultMessage());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return user;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>组序列<br>一个组可以定义为其他组的序列，使用它进行验证的时候必须符合该序列规定的顺序。在使用组序列验证的时候，如果序列前边的组验证失败，则后面的组将不再给予验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public interface GroupA &#123;</span><br><span class="line">&#125;</span><br><span class="line">public interface GroupB &#123;</span><br><span class="line">&#125;</span><br><span class="line">@GroupSequence( &#123; Default.class, GroupA.class, GroupB.class &#125;)</span><br><span class="line">public interface Group &#123;</span><br><span class="line">&#125;</span><br><span class="line">public class User &#123;</span><br><span class="line">    @NotEmpty(message = &quot;firstname may be empty&quot;)</span><br><span class="line">    private String firstname;</span><br><span class="line">    @NotEmpty(message = &quot;middlename may be empty&quot;, groups = Default.class)</span><br><span class="line">    private String middlename;</span><br><span class="line">    @NotEmpty(message = &quot;lastname may be empty&quot;, groups = GroupA.class)</span><br><span class="line">    private String lastname;</span><br><span class="line">    @NotEmpty(message = &quot;country may be empty&quot;, groups = GroupB.class)</span><br><span class="line">    private String country;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value = &quot;/update.action&quot;, method = RequestMethod.POST)</span><br><span class="line">public String register(@Validated(Group.class) User user, BindingResult result) &#123;</span><br><span class="line">    if (result.hasErrors()) &#123;</span><br><span class="line">        return &quot;validate/error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;redirect:/success&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/24/%E4%BD%BF%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%A1%86%E6%9E%B6validation%E6%A0%A1%E9%AA%8C%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/" data-id="ck3cj2t2l00016gincl7ub0da" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/24/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/11/24/%E4%BD%BF%E7%94%A8%E6%A0%A1%E9%AA%8C%E6%A1%86%E6%9E%B6validation%E6%A0%A1%E9%AA%8C%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0/">使用校验框架validation校验请求参数</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/24/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
